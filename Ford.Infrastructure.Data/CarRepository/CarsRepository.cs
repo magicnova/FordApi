@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Ford.Domain;
@@ -28,8 +29,29 @@ namespace Ford.Infrastructure.Data.CarRepository
 
         public IList<Car> GetAll()
         {
-            var carSchema = _fordContext.GetContext().GetCollection<CarSchema>("Cars").Find(x=>x.Active==true).ToList();
+            var carSchema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                .Find(x=>x.Active).ToList();
             return _carsMapper.MapSchemaToDomain(carSchema);
+        }
+        
+        public IList<Car> GetCollectionBy(string dbField, string valueCondition)
+        {
+            var filter = Builders<CarSchema>.Filter.Eq(dbField, valueCondition);
+            var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                .Find(filter, new FindOptions
+                {
+                    Collation = new Collation("en", strength: CollationStrength.Secondary),
+                }).ToList();
+ 
+            return _carsMapper.MapSchemaToDomain(carSChema);
+        }
+
+        public Car GetById(string id)
+        {
+            var filter = Builders<CarSchema>.Filter.Eq("_id", ObjectId.Parse(id));
+            var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                .Find(filter).First();
+            return _carsMapper.MapSchemaToDomain(carSChema);
         }
 
         public void Update(Car car)

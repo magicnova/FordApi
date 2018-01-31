@@ -6,7 +6,10 @@ namespace Ford.Infrastructure.Data.CarRepository.Interfaces
     public interface ICarsRepository
     {
         void Create(Car car);
-        IList<Car> GetAll();
         void Update(Car car);
+        IList<Car> GetAll();
+        Car GetById(string id);
+        IList<Car> GetCollectionBy(string dbField, string valueCondition);
+
     }
 }

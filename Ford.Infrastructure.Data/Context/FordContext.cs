@@ -5,7 +5,7 @@ namespace Ford.Infrastructure.Data.Context
 {
     public class FordContext :IFordContext
     {
-        private readonly IMongoDatabase _database = null;
+        private readonly IMongoDatabase _database;
 
         public FordContext(string connectionString, string database)
         {
@@ -16,8 +16,7 @@ namespace Ford.Infrastructure.Data.Context
         
         public IMongoDatabase GetContext()
         {
-return _database;
-
+            return _database;
         }
     }
 }

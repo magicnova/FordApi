@@ -28,5 +28,30 @@ namespace Ford.Services
         {
             _carsRepository.Update(car);
         }
+
+        public IList<Car> GetByModel(string model)
+        {
+              return  _carsRepository.GetCollectionBy("Model",model);
+        }
+
+        public IList<Car> GetByGearBox(string gearBox)
+        {
+            return _carsRepository.GetCollectionBy("GearBox",gearBox);
+        }
+
+        public IList<Car> GetByMotor(string motor)
+        {
+            return _carsRepository.GetCollectionBy("Motor",motor);
+        }
+
+        public IList<Car> GetByYear(int year)
+        {
+            return _carsRepository.GetCollectionBy("Year",year.ToString());
+        }
+
+        public Car GetById(string id)
+        {
+            return _carsRepository.GetById(id);
+        }
     }
 }
