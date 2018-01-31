@@ -1,4 +1,5 @@
-﻿using Ford.Domain;
+﻿using System.Collections.Generic;
+using Ford.Domain;
 using Ford.Infrastructure.Data.Models;
 
 namespace Ford.Infrastructure.Data.CarRepository.Interfaces
@@ -8,5 +9,6 @@ namespace Ford.Infrastructure.Data.CarRepository.Interfaces
         CarSchema MapDomainToSchema(Car car);
         CarSchema MapDomainToSchema(Car car,CarSchema carSchema);
         Car MapSchemaToDomain(CarSchema carSchema);
+        IList<Car> MapSchemaToDomain(IList<CarSchema> carSchema);
     }
 }

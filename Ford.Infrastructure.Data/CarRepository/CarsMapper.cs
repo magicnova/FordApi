@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ford.Domain;
 using Ford.Infrastructure.Data.CarRepository.Interfaces;
 using Ford.Infrastructure.Data.Models;
@@ -37,12 +39,28 @@ namespace Ford.Infrastructure.Data.CarRepository
         {
             return new Car
             {
+                Id = carSchema.Id.ToString(),
                 Active = carSchema.Active,
                 GearBox = carSchema.GearBox,
                 Model = carSchema.Model,
                 Motor = carSchema.Motor,
                 Year = carSchema.Year
             };
+        }
+
+        public IList<Car> MapSchemaToDomain(IList<CarSchema> carSchema)
+        {
+            return carSchema.Select(schema =>
+                new Car
+                {
+                    Id = schema.Id.ToString(),
+                    Active = schema.Active,
+                    GearBox = schema.GearBox,
+                    Model = schema.Model,
+                    Motor = schema.Motor,
+                    Year = schema.Year
+                }
+            ).ToList();
         }
     }
 }

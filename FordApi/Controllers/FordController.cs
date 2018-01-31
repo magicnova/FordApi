@@ -1,4 +1,5 @@
-﻿using Ford.Domain;
+﻿using System.Collections.Generic;
+using Ford.Domain;
 using Ford.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,16 @@ namespace FordApi.Controllers
             _carsService = carsService;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public void Post([FromBody] Car car)
         {
               _carsService.Create(car);
+        }
+
+        [HttpGet]
+        public IList<Car> GetAll()
+        {
+        return   _carsService.GetAll();
         }
        
     }

@@ -1,7 +1,9 @@
-﻿using Ford.Domain;
+﻿using System.Collections.Generic;
+using Ford.Domain;
 using Ford.Infrastructure.Data.CarRepository.Interfaces;
 using Ford.Infrastructure.Data.Context.Interfaces;
 using Ford.Infrastructure.Data.Models;
+using MongoDB.Driver;
 
 namespace Ford.Infrastructure.Data.CarRepository
 {
@@ -19,6 +21,12 @@ namespace Ford.Infrastructure.Data.CarRepository
         {
             var carSchema = _carsMapper.MapDomainToSchema(car);
             _fordContext.GetContext().GetCollection<CarSchema>("Cars").InsertOne(carSchema);
+        }
+
+        public IList<Car> GetAll()
+        {
+            var carSchema = _fordContext.GetContext().GetCollection<CarSchema>("Cars").Find(x=>x.Active==true).ToList();
+            return _carsMapper.MapSchemaToDomain(carSchema);
         }
     }
 }
