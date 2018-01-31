@@ -2,4 +2,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ford.Domain\Ford.Domain.csproj">
+      <Project>{F3B6BA4F-9C1A-4795-A712-EDF859FCB577}</Project>
+      <Name>Ford.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

@@ -11,4 +11,14 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ford.Domain\Ford.Domain.csproj">
+      <Project>{F3B6BA4F-9C1A-4795-A712-EDF859FCB577}</Project>
+      <Name>Ford.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ford.IoC\Ford.IoC.csproj">
+      <Project>{6E8D04A6-8736-4787-AE44-61E0692D1727}</Project>
+      <Name>Ford.IoC</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
