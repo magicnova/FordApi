@@ -19,6 +19,7 @@ namespace Ford.IoC
                                 new FordContext( 
                                     configuration.GetSection("MongoConnection:ConnectionString").Value
                                     ,configuration.GetSection("MongoConnection:Database").Value));
+            services.AddTransient<ICarsMapper, CarsMapper>();
         }
     }
 }
