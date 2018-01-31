@@ -14,5 +14,5 @@
 
 
 ## TODO
-- Go to Localhost:5000/swagger
+- Add swagger
 - Create actions in controller
