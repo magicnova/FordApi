@@ -15,7 +15,7 @@ namespace FordApi.Controllers
             _carsService = carsService;
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         public void Post([FromBody] Car car)
         {
               _carsService.Create(car);
