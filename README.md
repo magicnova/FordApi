@@ -8,6 +8,11 @@
 | Method  | Route | Description |
 |---|---|---|
 | GET  | /api/ford  | Get all cars  |
+| GET  | /api/ford/model/{model}  | Get cars by model  |
+| GET  | /api/ford/motor/{motor}  | Get cars by motor  |
+| GET  | /api/ford/gearbox/{gearbox}  | Get cars by gearbox  |
+| GET  | /api/ford/year/{year}  | Get cars by year |
+| GET  | /api/ford/id/{id}  | Get car by id  |
 | POST  | /api/ford  | Create new car  |
 | PUT  | /api/ford  |  Update car |
 
@@ -15,4 +20,3 @@
 
 ## TODO
 - Add swagger
-- Create actions in controller
