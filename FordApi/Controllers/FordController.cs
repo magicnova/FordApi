@@ -26,6 +26,12 @@ namespace FordApi.Controllers
         {
         return   _carsService.GetAll();
         }
+
+        [HttpPut]
+        public void Put([FromBody] Car car)
+        {
+            _carsService.Update(car);
+        }
        
     }
 }

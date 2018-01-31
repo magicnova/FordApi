@@ -23,5 +23,10 @@ namespace Ford.Services
         {
             return _carsRepository.GetAll();
         }
+
+        public void Update(Car car)
+        {
+            _carsRepository.Update(car);
+        }
     }
 }

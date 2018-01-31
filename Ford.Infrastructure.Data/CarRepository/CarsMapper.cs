@@ -4,6 +4,7 @@ using System.Linq;
 using Ford.Domain;
 using Ford.Infrastructure.Data.CarRepository.Interfaces;
 using Ford.Infrastructure.Data.Models;
+using MongoDB.Bson;
 
 namespace Ford.Infrastructure.Data.CarRepository
 {
@@ -19,20 +20,9 @@ namespace Ford.Infrastructure.Data.CarRepository
                 GearBox = car.GearBox,
                 Model = car.Model,
                 Motor = car.Motor,
-                Year = car.Year
+                Year = car.Year,
+                Id = !string.IsNullOrEmpty(car.Id)? ObjectId.Parse(car.Id) : ObjectId.Empty
             };
-        }
-
-        public CarSchema MapDomainToSchema(Car car, CarSchema carSchema)
-        {
-            carSchema.Active = car.Active;
-            carSchema.UpdatedAt = DateTime.Now;
-            carSchema.GearBox = car.GearBox;
-            carSchema.Model = car.Model;
-            carSchema.Motor = car.Motor;
-            carSchema.Year = car.Year;
-
-            return carSchema;
         }
 
         public Car MapSchemaToDomain(CarSchema carSchema)

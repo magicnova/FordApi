@@ -7,5 +7,6 @@ namespace Ford.Infrastructure.Data.CarRepository.Interfaces
     {
         void Create(Car car);
         IList<Car> GetAll();
+        void Update(Car car);
     }
 }
