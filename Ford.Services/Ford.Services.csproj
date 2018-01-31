@@ -7,5 +7,9 @@
       <Project>{F3B6BA4F-9C1A-4795-A712-EDF859FCB577}</Project>
       <Name>Ford.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ford.Infrastructure.Data\Ford.Infrastructure.Data.csproj">
+      <Project>{1B8484AC-AE5C-45FC-906A-DF4AF0DB99B1}</Project>
+      <Name>Ford.Infrastructure.Data</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

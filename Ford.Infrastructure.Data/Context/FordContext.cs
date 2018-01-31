@@ -12,11 +12,12 @@ namespace Ford.Infrastructure.Data.Context
             var client = new MongoClient(connectionString);
              _database = client.GetDatabase(database);
         }
-       
+
+        
         public IMongoDatabase GetContext()
         {
-            return _database;
+return _database;
+
         }
-        
     }
 }
