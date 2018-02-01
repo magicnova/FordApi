@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ford.Domain;
 using Ford.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.Extensions.FileProviders;
 
 namespace FordApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class FordController : Controller
     {
@@ -15,60 +20,276 @@ namespace FordApi.Controllers
             _carsService = carsService;
         }
 
-        ///<remarks>This method will create a new car.</remarks>
+        /// <summary>
+        /// This method will create a new car.
+        /// </summary>
+        ///<remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "",
+        ///        "model": "model",
+        ///         "motor":"motor",
+        ///         "gearBox":"gear",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        ///</remarks>
+        ///<response code="200">If the car was succesfully created</response>
+        ///<response code="500">If the car was not succesfully created</response>   
         [HttpPost]
-        public void Post([FromBody] Car car)
+        [ProducesResponseType(typeof(Car), 200)]
+        [ProducesResponseType(typeof(Car), 500)]
+        public IActionResult Post([FromBody] Car car)
         {
-              _carsService.Create(car);
+            try
+            {
+                _carsService.Create(car);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Get all cars.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <returns>All active cars</returns>
+        /// <response code="200">Returns all active cars</response>
+        /// <response code="204">If cars are not availables</response>  
         [HttpGet]
-        ///<remarks>This method will return all the cars.</remarks>
-        public IList<Car> GetAll()
+        public IActionResult GetAll()
         {
-        return   _carsService.GetAll();
+            var cars = _carsService.GetAll();
+
+            if (cars.Count == 0)
+            {
+                return NoContent();
+            }
+            
+            return Ok(cars);
         }
 
+        /// <summary>
+        /// Get all cars that match with the model.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="model"></param>
+        /// <returns>All active cars</returns>
+        /// <response code="200">Returns active cars</response>
+        /// <response code="204">If cars are not availables</response>  
         [HttpGet("model/{model}")]
-        ///<remarks>This method will return all the cars that match with the model.</remarks>
-        public IList<Car> GetByModel(string model)
+        public IActionResult GetByModel(string model)
         {
-            return _carsService.GetByModel(model);
+            var cars = _carsService.GetByModel(model);
+            
+            if (cars.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(cars);
         }
 
+        /// <summary>
+        /// Get all cars that match with the motor.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="motor"></param>
+        /// <returns>All active cars that match with the motor</returns>
+        /// <response code="200">Returns active cars</response>
+        /// <response code="204">If cars are not availables</response>  
         [HttpGet("motor/{motor}")]
-        ///<remarks>This method will return all the cars that match with the motor.</remarks>
-        public IList<Car> GetByMotor(string motor)
+        public IActionResult GetByMotor(string motor)
         {
-            return _carsService.GetByMotor(motor);
+            var cars =_carsService.GetByMotor(motor);
+
+            if (cars.Count == 0)
+            {
+                return NoContent();
+            }
+            
+            return Ok(cars);
         }
-        
+     
+        /// <summary>
+        /// Get all cars that match with the gear box.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="gearBox"></param>
+        /// <returns>All active cars that match with the gearbox</returns>
+        /// <response code="200">Returns active cars</response>
+        /// <response code="204">If cars are not availables</response>
         [HttpGet("gearbox/{gearbox}")]
-        ///<remarks>This method will return all the cars that match with the gearbox.</remarks>
-        public IList<Car> GetByGearBox(string gearBox)
+        public IActionResult GetByGearBox(string gearBox)
         {
-            return _carsService.GetByGearBox(gearBox);
-        }
-        
-        [HttpGet("year/{year}")]
-        ///<remarks>This method will return all the cars that match with the year.</remarks>
-        public IList<Car> GetByYear(int year)
-        {
-            return _carsService.GetByYear(year);
+            var cars =_carsService.GetByGearBox(gearBox);
+
+            if (cars.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(cars);
         }
 
-        [HttpGet("id/{id}")]
-        ///<remarks>This method will return all the cars that match with the id.</remarks>
-        public Car GetById(string id)
+        /// <summary>
+        /// Get all cars that match with the year.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="year"></param>
+        /// <returns>All active cars that match with the year</returns>
+        /// <response code="200">Returns active cars</response>
+        /// <response code="204">If cars are not availables</response>
+        [HttpGet("year/{year}")]
+        public IActionResult GetByYear(int year)
         {
-            return _carsService.GetById(id);
+            var cars = _carsService.GetByYear(year);
+            
+            if (cars.Count == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(cars);
+        }
+
+        /// <summary>
+        /// Get the car that match with the id.
+        /// </summary>
+        /// <remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns>the car that match with the id</returns>
+        /// <response code="200">If exist returns the car</response>
+        /// <response code="204">If not exist</response>
+        /// <response code="500">if an error occurs, like parsing the id to an objectId</response>
+        [HttpGet("id/{id}")]
+        public IActionResult GetById(string id)
+        {
+            try
+            {
+                var car = _carsService.GetById(id);
+
+                if (car == null)
+                {
+                    return NoContent();
+                }
+
+                return Ok(car);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
         }
         
+        /// <summary>
+        /// This method will update a car.
+        /// </summary>
+        ///<remarks>
+        ///Sample request:
+        /// 
+        ///     {
+        ///        "id": "5a71b9721cafa41c54a31f30",
+        ///        "model": "Focus",
+        ///         "motor":"Gas",
+        ///         "gearBox":"Automatic",
+        ///         "year":2019,
+        ///         "active":true
+        ///     }
+        /// 
+        ///</remarks>
+        ///<response code="200">If the car was succesfully updated</response>
+        ///<response code="500">If the car was not succesfully updated</response>   
         [HttpPut]
-        ///<remarks>This method will updarte the car.</remarks>
-        public void Put([FromBody] Car car)
+        public IActionResult Put([FromBody] Car car)
         {
-            _carsService.Update(car);
+            try
+            {
+                _carsService.Update(car);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
        
     }

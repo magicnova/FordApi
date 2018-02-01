@@ -48,10 +48,19 @@ namespace Ford.Infrastructure.Data.CarRepository
 
         public Car GetById(string id)
         {
-            var filter = Builders<CarSchema>.Filter.Eq("_id", ObjectId.Parse(id));
-            var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
-                .Find(filter).First();
-            return _carsMapper.MapSchemaToDomain(carSChema);
+            try
+            {
+                var filter = Builders<CarSchema>.Filter.Eq("_id", ObjectId.Parse(id));
+                
+                var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                    .Find(filter).FirstOrDefault();
+                
+                return carSChema != null ? _carsMapper.MapSchemaToDomain(carSChema) : null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Update(Car car)

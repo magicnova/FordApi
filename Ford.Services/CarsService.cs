@@ -8,14 +8,16 @@ namespace Ford.Services
     public class CarsService :ICarsService
     {
         private readonly ICarsRepository _carsRepository;
-
-        public CarsService(ICarsRepository carsRepository)
+        private readonly IValidator _validator;
+        public CarsService(ICarsRepository carsRepository, IValidator validator)
         {
             _carsRepository = carsRepository;
+            _validator = validator;
         }
 
         public void Create(Car car)
         {
+            _validator.ValidateCreationFieldsAreFilled(car);
             _carsRepository.Create(car);
         }
 
@@ -26,6 +28,7 @@ namespace Ford.Services
 
         public void Update(Car car)
         {
+            _validator.ValidateUpdateFieldsAreFilled(car);
             _carsRepository.Update(car);
         }
 
