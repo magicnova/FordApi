@@ -15,8 +15,3 @@
 | GET  | /api/ford/id/{id}  | Get car by id  |
 | POST  | /api/ford  | Create new car  |
 | PUT  | /api/ford  |  Update car |
-
-
-
-## TODO
-- Add swagger
