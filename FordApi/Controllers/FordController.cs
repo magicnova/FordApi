@@ -43,15 +43,8 @@ namespace FordApi.Controllers
         [ProducesResponseType(typeof(Car), 500)]
         public IActionResult Post([FromBody] Car car)
         {
-            try
-            {
-                _carsService.Create(car);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            _carsService.Create(car);
+            return Ok();
         }
 
         /// <summary>
@@ -242,8 +235,6 @@ namespace FordApi.Controllers
         [HttpGet("id/{id}")]
         public IActionResult GetById(string id)
         {
-            try
-            {
                 var car = _carsService.GetById(id);
 
                 if (car == null)
@@ -252,11 +243,6 @@ namespace FordApi.Controllers
                 }
 
                 return Ok(car);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
         
         /// <summary>
@@ -280,15 +266,8 @@ namespace FordApi.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Car car)
         {
-            try
-            {
                 _carsService.Update(car);
                 return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
         
         /// <summary>
@@ -301,17 +280,8 @@ namespace FordApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            try
-            {
                 _carsService.Delete(id);
                 return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
-        
-       
     }
 }

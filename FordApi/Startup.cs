@@ -1,7 +1,11 @@
 ﻿using System.IO;
+using System.Text;
+using Ford.Domain;
 using Ford.IoC;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -39,8 +43,32 @@ namespace FordApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }    
 
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError; 
+                    context.Response.ContentType = "application/json";
+
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error != null)
+                    {
+                        var ex = error.Error;
+                        //Write as in a log file
+                        //System.IO.File.WriteAllText(@"exception.txt", ex);
+
+                        await context.Response.WriteAsync(new Error()
+                        {
+                            Status= StatusCodes.Status500InternalServerError,
+                            Message = ex.Message // or your custom message
+                            // other custom data
+                        }.ToString(), Encoding.UTF8);
+                    }
+                });
+            });
+            
             app.UseMvc();
             app.UseSwagger();
 
