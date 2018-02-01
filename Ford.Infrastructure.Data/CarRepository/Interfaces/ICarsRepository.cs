@@ -10,6 +10,6 @@ namespace Ford.Infrastructure.Data.CarRepository.Interfaces
         IList<Car> GetAll();
         Car GetById(string id);
         IList<Car> GetCollectionBy(string dbField, string valueCondition);
-
+        void Delete(string id);
     }
 }

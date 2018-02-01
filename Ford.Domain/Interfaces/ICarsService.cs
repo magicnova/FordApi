@@ -12,6 +12,6 @@ namespace Ford.Domain.Interfaces
         IList<Car> GetByMotor(string motor);
         IList<Car> GetByYear(int year);
         Car GetById(string id);
-        
+        void Delete(string id);
     }
 }

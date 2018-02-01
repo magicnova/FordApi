@@ -257,7 +257,6 @@ namespace FordApi.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
         }
         
         /// <summary>
@@ -291,6 +290,28 @@ namespace FordApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Delete the car that match with the id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">If the car was succesfully deleted</response>
+        /// <response code="204">If not exist</response>
+        /// <response code="500">if an error occurs, like parsing the id to an objectId</response>
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                _carsService.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        
        
     }
 }

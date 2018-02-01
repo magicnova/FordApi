@@ -56,5 +56,11 @@ namespace Ford.Services
         {
             return _carsRepository.GetById(id);
         }
+
+        public void Delete(string id)
+        {
+            _validator.ValidateDeleteFieldsAreFilled(id);
+            _carsRepository.Delete(id);
+        }
     }
 }

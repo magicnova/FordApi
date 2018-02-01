@@ -36,7 +36,10 @@ namespace Ford.Infrastructure.Data.CarRepository
         
         public IList<Car> GetCollectionBy(string dbField, string valueCondition)
         {
-            var filter = Builders<CarSchema>.Filter.Eq(dbField, valueCondition);
+            var filterByField = Builders<CarSchema>.Filter.Eq(dbField, valueCondition);
+            var filterActiveRecords = Builders<CarSchema>.Filter.Eq(x => x.Active, true);
+            var filter =  Builders<CarSchema>.Filter.And(filterByField, filterActiveRecords);
+            
             var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
                 .Find(filter, new FindOptions
                 {
@@ -44,6 +47,24 @@ namespace Ford.Infrastructure.Data.CarRepository
                 }).ToList();
  
             return _carsMapper.MapSchemaToDomain(carSChema);
+        }
+
+        public void Delete(string id)
+        {
+            try
+            {
+                var filter = Builders<CarSchema>.Filter.Eq("_id", ObjectId.Parse(id));
+                var update = Builders<CarSchema>.Update
+                    .Set(s => s.Active, false)
+                    .CurrentDate(s => s.UpdatedAt);
+
+              _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                    .UpdateOne(filter, update);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Car GetById(string id)

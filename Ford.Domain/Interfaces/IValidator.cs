@@ -4,5 +4,6 @@
     {
         void ValidateCreationFieldsAreFilled(Car car);
         void ValidateUpdateFieldsAreFilled(Car car);
+        void ValidateDeleteFieldsAreFilled(string id);
     }
 }
