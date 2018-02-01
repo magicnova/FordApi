@@ -32,7 +32,7 @@ namespace FordApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            new Container().Module(services);
+            new Container().Module(services,Configuration);
             services.AddTransient<IFordContext>(context =>
                 new FordContext(
                     Configuration.GetSection("MongoConnection:ConnectionString").Value
