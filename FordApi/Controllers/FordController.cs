@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Ford.Domain;
+﻿using Ford.Domain;
 using Ford.Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.Extensions.FileProviders;
 
 namespace FordApi.Controllers
 {
@@ -21,23 +16,21 @@ namespace FordApi.Controllers
         }
 
         /// <summary>
-        /// This method will create a new car.
+        ///     This method will create a new car.
         /// </summary>
-        ///<remarks>
-        ///Sample request:
-        /// 
+        /// <remarks>
+        ///     Sample request:
         ///     {
-        ///        "id": "",
-        ///        "model": "model",
-        ///         "motor":"motor",
-        ///         "gearBox":"gear",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "",
+        ///     "model": "model",
+        ///     "motor":"motor",
+        ///     "gearBox":"gear",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
-        ///</remarks>
-        ///<response code="200">If the car was succesfully created</response>
-        ///<response code="500">If the car was not succesfully created</response>   
+        /// </remarks>
+        /// <response code="200">If the car was succesfully created</response>
+        /// <response code="500">If the car was not succesfully created</response>
         [HttpPost]
         [ProducesResponseType(typeof(Car), 200)]
         [ProducesResponseType(typeof(Car), 500)]
@@ -48,118 +41,101 @@ namespace FordApi.Controllers
         }
 
         /// <summary>
-        /// Get all cars.
+        ///     Get all cars.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <returns>All active cars</returns>
         /// <response code="200">Returns all active cars</response>
-        /// <response code="204">If cars are not availables</response>  
+        /// <response code="204">If cars are not availables</response>
         [HttpGet]
         public IActionResult GetAll()
         {
             var cars = _carsService.GetAll();
 
-            if (cars.Count == 0)
-            {
-                return NoContent();
-            }
-            
+            if (cars.Count == 0) return NoContent();
+
             return Ok(cars);
         }
 
         /// <summary>
-        /// Get all cars that match with the model.
+        ///     Get all cars that match with the model.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <param name="model"></param>
         /// <returns>All active cars</returns>
         /// <response code="200">Returns active cars</response>
-        /// <response code="204">If cars are not availables</response>  
+        /// <response code="204">If cars are not availables</response>
         [HttpGet("model/{model}")]
         public IActionResult GetByModel(string model)
         {
             var cars = _carsService.GetByModel(model);
-            
-            if (cars.Count == 0)
-            {
-                return NoContent();
-            }
+
+            if (cars.Count == 0) return NoContent();
 
             return Ok(cars);
         }
 
         /// <summary>
-        /// Get all cars that match with the motor.
+        ///     Get all cars that match with the motor.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <param name="motor"></param>
         /// <returns>All active cars that match with the motor</returns>
         /// <response code="200">Returns active cars</response>
-        /// <response code="204">If cars are not availables</response>  
+        /// <response code="204">If cars are not availables</response>
         [HttpGet("motor/{motor}")]
         public IActionResult GetByMotor(string motor)
         {
-            var cars =_carsService.GetByMotor(motor);
+            var cars = _carsService.GetByMotor(motor);
 
-            if (cars.Count == 0)
-            {
-                return NoContent();
-            }
-            
+            if (cars.Count == 0) return NoContent();
+
             return Ok(cars);
         }
-     
+
         /// <summary>
-        /// Get all cars that match with the gear box.
+        ///     Get all cars that match with the gear box.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <param name="gearBox"></param>
         /// <returns>All active cars that match with the gearbox</returns>
@@ -168,31 +144,26 @@ namespace FordApi.Controllers
         [HttpGet("gearbox/{gearbox}")]
         public IActionResult GetByGearBox(string gearBox)
         {
-            var cars =_carsService.GetByGearBox(gearBox);
+            var cars = _carsService.GetByGearBox(gearBox);
 
-            if (cars.Count == 0)
-            {
-                return NoContent();
-            }
+            if (cars.Count == 0) return NoContent();
 
             return Ok(cars);
         }
 
         /// <summary>
-        /// Get all cars that match with the year.
+        ///     Get all cars that match with the year.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <param name="year"></param>
         /// <returns>All active cars that match with the year</returns>
@@ -202,30 +173,25 @@ namespace FordApi.Controllers
         public IActionResult GetByYear(int year)
         {
             var cars = _carsService.GetByYear(year);
-            
-            if (cars.Count == 0)
-            {
-                return NoContent();
-            }
+
+            if (cars.Count == 0) return NoContent();
 
             return Ok(cars);
         }
 
         /// <summary>
-        /// Get the car that match with the id.
+        ///     Get the car that match with the id.
         /// </summary>
         /// <remarks>
-        ///Sample request:
-        /// 
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
         /// </remarks>
         /// <param name="id"></param>
         /// <returns>the car that match with the id</returns>
@@ -235,43 +201,38 @@ namespace FordApi.Controllers
         [HttpGet("id/{id}")]
         public IActionResult GetById(string id)
         {
-                var car = _carsService.GetById(id);
+            var car = _carsService.GetById(id);
 
-                if (car == null)
-                {
-                    return NoContent();
-                }
+            if (car == null) return NoContent();
 
-                return Ok(car);
+            return Ok(car);
         }
-        
+
         /// <summary>
-        /// This method will update a car.
+        ///     This method will update a car.
         /// </summary>
-        ///<remarks>
-        ///Sample request:
-        /// 
+        /// <remarks>
+        ///     Sample request:
         ///     {
-        ///        "id": "5a71b9721cafa41c54a31f30",
-        ///        "model": "Focus",
-        ///         "motor":"Gas",
-        ///         "gearBox":"Automatic",
-        ///         "year":2019,
-        ///         "active":true
+        ///     "id": "5a71b9721cafa41c54a31f30",
+        ///     "model": "Focus",
+        ///     "motor":"Gas",
+        ///     "gearBox":"Automatic",
+        ///     "year":2019,
+        ///     "active":true
         ///     }
-        /// 
-        ///</remarks>
-        ///<response code="200">If the car was succesfully updated</response>
-        ///<response code="500">If the car was not succesfully updated</response>   
+        /// </remarks>
+        /// <response code="200">If the car was succesfully updated</response>
+        /// <response code="500">If the car was not succesfully updated</response>
         [HttpPut]
         public IActionResult Put([FromBody] Car car)
         {
-                _carsService.Update(car);
-                return Ok();
+            _carsService.Update(car);
+            return Ok();
         }
-        
+
         /// <summary>
-        /// Delete the car that match with the id.
+        ///     Delete the car that match with the id.
         /// </summary>
         /// <param name="id"></param>
         /// <response code="200">If the car was succesfully deleted</response>
@@ -280,8 +241,8 @@ namespace FordApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-                _carsService.Delete(id);
-                return Ok();
+            _carsService.Delete(id);
+            return Ok();
         }
     }
 }

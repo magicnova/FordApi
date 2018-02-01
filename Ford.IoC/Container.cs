@@ -15,10 +15,10 @@ namespace Ford.IoC
         {
             services.AddTransient<ICarsService, CarsService>();
             services.AddTransient<ICarsRepository, CarsRepository>();
-            services.AddTransient<IFordContext>(context=>
-                                new FordContext( 
-                                    configuration.GetSection("MongoConnection:ConnectionString").Value
-                                    ,configuration.GetSection("MongoConnection:Database").Value));
+            services.AddTransient<IFordContext>(context =>
+                new FordContext(
+                    configuration.GetSection("MongoConnection:ConnectionString").Value
+                    , configuration.GetSection("MongoConnection:Database").Value));
             services.AddTransient<ICarsMapper, CarsMapper>();
             services.AddTransient<IValidator, Validator>();
         }

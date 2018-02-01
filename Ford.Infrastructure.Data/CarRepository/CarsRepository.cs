@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using Ford.Domain;
 using Ford.Infrastructure.Data.CarRepository.Interfaces;
 using Ford.Infrastructure.Data.Context.Interfaces;
@@ -11,10 +9,11 @@ using MongoDB.Driver;
 
 namespace Ford.Infrastructure.Data.CarRepository
 {
-    public class CarsRepository :ICarsRepository
+    public class CarsRepository : ICarsRepository
     {
-        private readonly IFordContext _fordContext;
         private readonly ICarsMapper _carsMapper;
+        private readonly IFordContext _fordContext;
+
         public CarsRepository(IFordContext fordContext, ICarsMapper carsMapper)
         {
             _fordContext = fordContext;
@@ -30,22 +29,22 @@ namespace Ford.Infrastructure.Data.CarRepository
         public IList<Car> GetAll()
         {
             var carSchema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
-                .Find(x=>x.Active).ToList();
+                .Find(x => x.Active).ToList();
             return _carsMapper.MapSchemaToDomain(carSchema);
         }
-        
+
         public IList<Car> GetCollectionBy(string dbField, string valueCondition)
         {
             var filterByField = Builders<CarSchema>.Filter.Eq(dbField, valueCondition);
             var filterActiveRecords = Builders<CarSchema>.Filter.Eq(x => x.Active, true);
-            var filter =  Builders<CarSchema>.Filter.And(filterByField, filterActiveRecords);
-            
+            var filter = Builders<CarSchema>.Filter.And(filterByField, filterActiveRecords);
+
             var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
                 .Find(filter, new FindOptions
                 {
-                    Collation = new Collation("en", strength: CollationStrength.Secondary),
+                    Collation = new Collation("en", strength: CollationStrength.Secondary)
                 }).ToList();
- 
+
             return _carsMapper.MapSchemaToDomain(carSChema);
         }
 
@@ -58,7 +57,7 @@ namespace Ford.Infrastructure.Data.CarRepository
                     .Set(s => s.Active, false)
                     .CurrentDate(s => s.UpdatedAt);
 
-              _fordContext.GetContext().GetCollection<CarSchema>("Cars")
+                _fordContext.GetContext().GetCollection<CarSchema>("Cars")
                     .UpdateOne(filter, update);
             }
             catch (Exception ex)
@@ -72,10 +71,10 @@ namespace Ford.Infrastructure.Data.CarRepository
             try
             {
                 var filter = Builders<CarSchema>.Filter.Eq("_id", ObjectId.Parse(id));
-                
+
                 var carSChema = _fordContext.GetContext().GetCollection<CarSchema>("Cars")
                     .Find(filter).FirstOrDefault();
-                
+
                 return carSChema != null ? _carsMapper.MapSchemaToDomain(carSChema) : null;
             }
             catch (Exception ex)
@@ -88,7 +87,7 @@ namespace Ford.Infrastructure.Data.CarRepository
         {
             var carSchema = _carsMapper.MapDomainToSchema(car);
             carSchema.UpdatedAt = DateTime.Now;
-            
+
             _fordContext.GetContext().GetCollection<CarSchema>("Cars")
                 .FindOneAndReplace(x => x.Id == ObjectId.Parse(car.Id), carSchema);
         }

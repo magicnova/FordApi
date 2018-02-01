@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace Ford.Infrastructure.Data.CarRepository
 {
-    public class CarsMapper :ICarsMapper
+    public class CarsMapper : ICarsMapper
     {
         public CarSchema MapDomainToSchema(Car car)
         {
@@ -21,7 +21,7 @@ namespace Ford.Infrastructure.Data.CarRepository
                 Model = car.Model,
                 Motor = car.Motor,
                 Year = car.Year,
-                Id = !string.IsNullOrEmpty(car.Id)? ObjectId.Parse(car.Id) : ObjectId.Empty
+                Id = !string.IsNullOrEmpty(car.Id) ? ObjectId.Parse(car.Id) : ObjectId.Empty
             };
         }
 
