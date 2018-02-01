@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace FordApi
@@ -55,11 +56,13 @@ namespace FordApi
                     var error = context.Features.Get<IExceptionHandlerFeature>();
                     if (error != null)
                     {
-                        await context.Response.WriteAsync(new Error()
+                        await context.Response.WriteAsync(
+                            JsonConvert.SerializeObject(
+                            new Error()
                         {
                             Status= StatusCodes.Status500InternalServerError,
                             Message = error.Error.Message 
-                        }.ToString(), Encoding.UTF8);
+                        }), Encoding.UTF8);
                     }
                 });
             });
