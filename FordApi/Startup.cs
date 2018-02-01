@@ -55,15 +55,10 @@ namespace FordApi
                     var error = context.Features.Get<IExceptionHandlerFeature>();
                     if (error != null)
                     {
-                        var ex = error.Error;
-                        //Write as in a log file
-                        //System.IO.File.WriteAllText(@"exception.txt", ex);
-
                         await context.Response.WriteAsync(new Error()
                         {
                             Status= StatusCodes.Status500InternalServerError,
-                            Message = ex.Message // or your custom message
-                            // other custom data
+                            Message = error.Error.Message 
                         }.ToString(), Encoding.UTF8);
                     }
                 });
