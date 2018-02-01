@@ -33,10 +33,7 @@ namespace FordApi
         {
             services.AddMvc();
             new Container().Module(services,Configuration);
-            services.AddTransient<IFordContext>(context =>
-                new FordContext(
-                    Configuration.GetSection("MongoConnection:ConnectionString").Value
-                    , Configuration.GetSection("MongoConnection:Database").Value));
+      
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1",
