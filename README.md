@@ -1,4 +1,4 @@
-# Ford Api!
+# Ford Api! [![Build Status](https://travis-ci.org/magicnova/FordApi.svg?branch=master)](https://travis-ci.org/magicnova/FordApi)
 
  - Developed using Net Core V 2.14, it runs on Localhost:5000 by default.
  - Mongo database is required. This is defined in the config file.
