@@ -27,9 +27,9 @@ namespace FordApi
             new Container().Module(services,Configuration);
             services.AddSwaggerGen(swagger =>
             {
-                swagger.SwaggerDoc("v1", new Info { Title = "Ford API", Version = "v1",Description = "This API will return cars made by Ford and you can create or update as well. No Database is required!"});
+                swagger.SwaggerDoc("v1", new Info { Title = "Ford API", Version = "v1",Description = "This API will return cars made by Ford and you can create or update as well. Mongo database is required, configure it in the configuration file!"});
                 swagger.IncludeXmlComments(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "FordApi.xml"));
-
+                swagger.OrderActionsBy(sort=>sort.GroupName);
             });
         }
 
