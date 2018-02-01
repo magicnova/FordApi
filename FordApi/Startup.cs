@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Text;
 using Ford.Domain;
+using Ford.Infrastructure.Data.Context;
+using Ford.Infrastructure.Data.Context.Interfaces;
 using Ford.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -30,7 +32,11 @@ namespace FordApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            new Container().Module(services, Configuration);
+            new Container().Module(services);
+            services.AddTransient<IFordContext>(context =>
+                new FordContext(
+                    Configuration.GetSection("MongoConnection:ConnectionString").Value
+                    , Configuration.GetSection("MongoConnection:Database").Value));
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1",
