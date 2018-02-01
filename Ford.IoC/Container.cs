@@ -1,8 +1,6 @@
 ﻿using Ford.Domain.Interfaces;
 using Ford.Infrastructure.Data.CarRepository;
 using Ford.Infrastructure.Data.CarRepository.Interfaces;
-using Ford.Infrastructure.Data.Context;
-using Ford.Infrastructure.Data.Context.Interfaces;
 using Ford.Services;
 using Microsoft.Extensions.DependencyInjection;
 
