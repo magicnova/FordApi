@@ -14,4 +14,9 @@
 | GET  | /api/ford/year/{year}  | Get cars by year |
 | GET  | /api/ford/id/{id}  | Get car by id  |
 | POST  | /api/ford  | Create new car  |
-| PUT  | /api/ford  |  Update car |
+| PUT  | /api/ford |  Update car |
+| DELETE| /api/ford| Delete car|
+
+## Swagger
+
+- Go to Localhost:5000/swagger
