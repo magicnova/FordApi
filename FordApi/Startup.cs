@@ -22,6 +22,7 @@ namespace FordApi
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                .AddEnvironmentVariables()
                 .AddJsonFile($"Config/appsettings.{env.EnvironmentName}.json")
                 .Build();
         }
@@ -53,7 +54,10 @@ namespace FordApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseExceptionHandler(errorApp =>
             {

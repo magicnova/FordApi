@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace FordApi
 {
@@ -13,8 +14,12 @@ namespace FordApi
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
+                .UseIISIntegration()
                 .UseKestrel()
+                .UseSetting("detailedErrors", "true")
+                .CaptureStartupErrors(true)
                 .Build();
         }
     }
