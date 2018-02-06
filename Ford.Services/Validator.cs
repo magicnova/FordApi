@@ -8,15 +8,17 @@ namespace Ford.Services
     {
         public void ValidateCreationFieldsAreFilled(Car car)
         {
-            if (car.GearBox == string.Empty || car.Model == string.Empty
-                                            || car.Motor == string.Empty || car.Year == 0)
+            if ( string.IsNullOrEmpty(car.GearBox ) || string.IsNullOrEmpty(car.Model)
+                                            || string.IsNullOrEmpty(car.Motor) || car.Year == 0)
                 throw new Exception("All fields are required, except the id and active fields");
         }
 
         public void ValidateUpdateFieldsAreFilled(Car car)
         {
-            if (car.GearBox == string.Empty || car.Model == string.Empty
-                                            || car.Motor == string.Empty || car.Year == 0 || car.Id == string.Empty)
+            if ( string.IsNullOrEmpty(car.GearBox ) || string.IsNullOrEmpty(car.Model)
+                                                    || string.IsNullOrEmpty(car.Motor) || 
+                                                    string.IsNullOrEmpty(car.Id) ||
+                                                    car.Year == 0)
                 throw new Exception("Id is required, except active field");
         }
 

@@ -18,8 +18,6 @@ namespace FordApi
                 .UseStartup<Startup>()
                 .UseIISIntegration()
                 .UseKestrel()
-                .UseSetting("detailedErrors", "true")
-                .CaptureStartupErrors(true)
                 .Build();
         }
     }
